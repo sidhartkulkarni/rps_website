@@ -1,0 +1,88 @@
+# Local-only originals, private assets and reference backups. Never force-add.
+/local-private-assets/
+/legacy-reference/
+/frontend/views/
+/backups/
+/uploads/
+/customer-uploads/
+**/private-uploads/
+**/customer-uploads/
+**/backup/
+**/backups/
+
+# Secrets and local configuration (only the reviewed backend template is allowed).
+.env
+.env.*
+!/backend/.env.example
+*.env
+.aws/
+.ssh/
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+id_rsa*
+id_ed25519*
+credentials
+credentials.json
+service-account*.json
+
+# Database exports, runtime storage and archives.
+*.sql
+*.sql.*
+*.dump
+*.db
+*.sqlite*
+*.zip
+*.ZIP
+*.tar
+*.tar.*
+*.tgz
+*.gz
+*.7z
+*.rar
+*.bak
+*.backup
+/artifacts/
+
+# Dependencies, generated builds, caches and machine-local files.
+node_modules/
+.venv/
+venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+*.tsbuildinfo
+/frontend/dist/
+/frontend/dist-ssr/
+.DS_Store
+*.log
+
+# Data exports and additional credential/certificate formats.
+*.csv
+*.tsv
+*.xls
+*.xlsx
+*.crt
+*.cer
+*.der
+*.[sS][qQ][lL]
+*.[sS][qQ][lL].*
+.ENV
+.ENV.*
+
+# Developer authentication configuration.
+.npmrc
+.pypirc
+.netrc
+.dockercfg
+.docker/config.json
+
+# Local deployment packages
+/artifacts/
+
+# Large media distributed through deployment releases
+/frontend/public/uploads/cms/Rapid_and_ship_Video_Animation_Final_-_English.mp4
+/frontend/public/uploads/cms/Rapid_and_ship_Video_Animation_Spanish_Final.mp4
