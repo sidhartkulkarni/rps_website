@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "validate:public": "node scripts/validate-public-site.mjs"
+    "validate:public": "node scripts/validate-public-site.mjs",
+    "test:integration": "playwright test"
   },
   "dependencies": {
     "axios": "^1.21.0",
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.65.0",
     "@types/node": "^24.19.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",

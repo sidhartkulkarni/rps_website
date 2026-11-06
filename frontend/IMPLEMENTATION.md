@@ -96,3 +96,10 @@ Final verification for this pass: 24 backend tests passed (one upstream Starlett
 - `scripts/deployment/` provides hash-checked media recovery, local clean-commit builds, compiled-only packaging, archive verification and separately invoked EC2 staging. No source/dependencies/backend enter the web artifact. Activation is an explicit operator step; no Nginx/EC2/Admin changes are automated or performed.
 - Current artifact: 52 files, ~561.1 MiB, including all 12 canonical route shells, four aliases, JS/CSS, sitemap/robots and 32 media files. A nonpublishable local preview was verified; the repository has no commits and nothing was pushed/released.
 - Build, lint and public validation passed after asset isolation. Host capacity, domain/TLS/Nginx coexistence, source/media/publication rights, approved legal content and separate API deployment remain approval prerequisites. Exact commands and rollback guidance: `../docs/deployment/EC2_STATIC_WEBSITE.md`.
+
+
+## Website backend completion — 2026-11-07
+
+On `feature/website-backend-production`, production-baseline contact/newsletter integration now includes bounded TLS SMTP, safe retries, dependency readiness and encrypted double opt-in/unsubscribe. Newsletter intake success means confirmation email accepted; membership requires explicit confirmation. Forms handle validation/unavailability/uncertain delivery without false success. No premium UI or production deployment changes.
+
+Validated: 41 backend tests, 8 browser integration tests, 7 deployment-helper tests, frontend build/lint and 12-route/32-asset validation. Remaining P0: approved SMTP configuration and controlled delivery verification, privacy/retention approval, host resource/port checks, dependency advisory review, isolated service/proxy approval. P1: approved campaign delivery that honors active state/unsubscribe; no campaign sender or subscriber admin UI exists. See `docs/integration/WEBSITE_BACKEND_PRODUCTION.md` and `docs/deployment/WEBSITE_BACKEND_EC2.md` from repository root. This entry supersedes earlier descriptions of newsletter as inbox-only or health as configuration-only.

@@ -1,0 +1,36 @@
+[Unit]
+Description=RPS public website API (isolated from Admin)
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=120
+StartLimitBurst=3
+
+[Service]
+Type=simple
+User=rps-website-api
+Group=rps-website-api
+WorkingDirectory=/opt/rps-website-api/current
+EnvironmentFile=/etc/rps-website-api/environment
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/opt/rps-website-api/current/.venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8017 --workers 1 --proxy-headers --forwarded-allow-ips 127.0.0.1 --no-access-log --limit-concurrency 16 --timeout-keep-alive 5 --timeout-graceful-shutdown 35
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=40
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/rps-website-api
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+CapabilityBoundingSet=
+LockPersonality=true
+RestrictSUIDSGID=true
+CPUQuota=50%
+MemoryMax=256M
+TasksMax=64
+LimitNOFILE=256
+
+[Install]
+WantedBy=multi-user.target

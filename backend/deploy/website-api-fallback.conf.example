@@ -1,0 +1,9 @@
+# Restore instead of the proxy location during rollback.
+location ^~ /api/website/ {
+    default_type application/json;
+    access_log off;
+    error_log /dev/null crit;
+    add_header Cache-Control "no-store" always;
+    add_header Retry-After "300" always;
+    return 503 '{"detail":"Website submissions are temporarily unavailable.","code":"service_unavailable","retryable":true}';
+}

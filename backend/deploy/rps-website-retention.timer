@@ -1,0 +1,11 @@
+[Unit]
+Description=Daily RPS website metadata retention
+
+[Timer]
+OnCalendar=daily
+RandomizedDelaySec=600
+Persistent=true
+Unit=rps-website-retention.service
+
+[Install]
+WantedBy=timers.target

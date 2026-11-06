@@ -1,0 +1,19 @@
+[Unit]
+Description=Prune expired RPS website submission metadata only
+
+[Service]
+Type=oneshot
+User=rps-website-api
+Group=rps-website-api
+WorkingDirectory=/opt/rps-website-api/current
+EnvironmentFile=/etc/rps-website-api/environment
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStart=/opt/rps-website-api/current/.venv/bin/python -m app.maintenance --prune
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/rps-website-api
+CPUQuota=25%
+MemoryMax=128M

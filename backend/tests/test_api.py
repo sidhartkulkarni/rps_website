@@ -1,4 +1,6 @@
 import logging
+from cryptography.fernet import Fernet
+import asyncio
 from uuid import uuid4
 from concurrent.futures import ThreadPoolExecutor
 import pytest
@@ -11,12 +13,13 @@ CONTACT = dict(name='Tester', email='tester@example.com', subject='Question', me
 class Provider:
     calls = 0
     error = None
+    def check(self): return True
     def send(self, *args):
         self.calls += 1
         if self.error: raise self.error('SECRET_SENTINEL')
 @pytest.fixture
 def setup(tmp_path):
-    settings = Settings(ledger_path=str(tmp_path/'db'), rate_limit=100)
+    settings = Settings(ledger_path=str(tmp_path/'db'), rate_limit=100, subscriber_encryption_key=Fernet.generate_key().decode())
     provider = Provider()
     with TestClient(create_app(settings, provider)) as client:
         yield client, provider, settings
@@ -63,7 +66,7 @@ def test_failure_redaction(setup,error,caplog):
 def test_disabled(tmp_path):
     with TestClient(create_app(Settings(ledger_path=str(tmp_path/'db')))) as client:
         assert post(client).status_code == 503
-        assert client.get('/api/website/health').json()['delivery_configured'] is False
+        assert client.get('/api/website/health').status_code == 503
 
 def test_cors_protocol(setup):
     client,provider,_=setup
@@ -84,7 +87,7 @@ def test_limits_production(tmp_path):
         assert post(client).status_code == 200
         assert post(client).status_code == 429
     with pytest.raises(ValueError): Settings(environment='production')
-    settings=Settings(environment='production',fingerprint_secret='x'*40,ledger_path=str(tmp_path/'prod'),allowed_origins=['https://rapidpacknship.com'])
+    settings=Settings(environment='production',fingerprint_secret='x'*40,ledger_path=str(tmp_path/'prod'),allowed_origins=['https://rapidpacknship.com'], public_origin='https://rapidpacknship.com', subscriber_encryption_key=Fernet.generate_key().decode())
     with TestClient(create_app(settings,Provider())) as client:
         response=post(client,Origin='https://rapidpacknship.com')
         assert response.status_code == 200
@@ -100,29 +103,33 @@ def test_concurrent_claim(setup):
 def test_log_and_smtp():
     record=logging.LogRecord('website',logging.ERROR,'',1,'PRIVATE_SENTINEL',(),None)
     assert 'PRIVATE_SENTINEL' not in SafeFormatter().format(record)
-    with pytest.raises(Unavailable): SMTPDelivery(Settings()).send('contact',CONTACT,str(uuid4()))
+    with pytest.raises(ValueError): Settings(provider='smtp')
 
 @pytest.mark.parametrize('phase,expected', [('connect',Unavailable),('login',Unavailable),('send',Uncertain),('quit',None),('ok',None)])
 def test_smtp_delivery_phases(monkeypatch, phase, expected):
+    closed = []
     class SMTP:
         def __init__(self,*args,**kwargs):
+            assert kwargs['validate_certs'] is True
+            assert kwargs['start_tls'] is True
+        async def connect(self):
             if phase=='connect': raise OSError('SECRET_SENTINEL')
-        def __enter__(self): return self
-        def __exit__(self,*args):
-            if phase=='quit': raise OSError('SECRET_SENTINEL')
-        def ehlo(self): pass
-        def starttls(self,context): assert context.check_hostname
-        def login(self,*args):
+        async def login(self,*args):
             if phase=='login': raise OSError('SECRET_SENTINEL')
-        def send_message(self,message):
-            assert message['To']=='inbox@example.com'
-            assert message['Subject']=='Website contact inquiry'
+        async def sendmail(self,sender,recipients,message):
+            assert recipients==['inbox@example.com']
             if phase=='send': raise TimeoutError('SECRET_SENTINEL')
-    monkeypatch.setattr('app.services.delivery.smtplib.SMTP',SMTP)
+            return {}, 'accepted'
+        async def quit(self):
+            if phase=='quit': raise OSError('SECRET_SENTINEL')
+        def close(self): closed.append(True)
+    monkeypatch.setattr('app.services.delivery.aiosmtplib.SMTP',SMTP)
     provider=SMTPDelivery(Settings(smtp_host='smtp.example.com',smtp_username='test',smtp_password='test-only',mail_from='sender@example.com',mail_to='inbox@example.com'))
     if expected:
         with pytest.raises(expected): provider.send('contact',CONTACT,str(uuid4()))
     else: provider.send('contact',CONTACT,str(uuid4()))
+    assert closed
+
 
 def test_global_limit_and_ledger_failure(setup):
     client,provider,settings=setup

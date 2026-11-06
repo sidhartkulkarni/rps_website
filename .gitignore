@@ -86,3 +86,6 @@ __pycache__/
 # Large media distributed through deployment releases
 /frontend/public/uploads/cms/Rapid_and_ship_Video_Animation_Final_-_English.mp4
 /frontend/public/uploads/cms/Rapid_and_ship_Video_Animation_Spanish_Final.mp4
+
+# Keep the reviewed variable-name template after case-insensitive env rules.
+!/backend/.env.example
