@@ -1,7 +1,10 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useSyncExternalStore } from 'react'
 import type { FormEvent } from 'react'
 
+const subscribe = () => () => {}
+
 export default function SubmissionForm({ kind }: { kind: 'contact' | 'newsletter' }) {
+  const hydrated = useSyncExternalStore(subscribe, () => true, () => false)
   const [busy, setBusy] = useState(false)
   const [status, setStatus] = useState('')
   const [failed, setFailed] = useState(false)
@@ -11,7 +14,7 @@ export default function SubmissionForm({ kind }: { kind: 'contact' | 'newsletter
   const contact = kind === 'contact'
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    if (lock.current || uncertain) return
+    if (!hydrated || lock.current || uncertain) return
     lock.current = true
     setBusy(true)
     setStatus('Sending…')
@@ -59,10 +62,11 @@ export default function SubmissionForm({ kind }: { kind: 'contact' | 'newsletter
       setBusy(false)
     }
   }
-  return <form className={contact ? 'contact-form' : 'newsletter-form'} onSubmit={submit} aria-describedby={`${kind}-notice ${kind}-status`} aria-busy={busy}>
+  return <form method="post" action={`/api/website/${kind}`} className={contact ? 'contact-form' : 'newsletter-form'} onSubmit={submit} aria-describedby={`${kind}-notice ${kind}-status`} aria-busy={busy}>
     <h2>{contact ? 'Send an Inquiry' : 'Newsletter'}</h2>
     <p id={`${kind}-notice`}>{contact ? 'Send a general inquiry. Do not include payment information or sensitive documents.' : 'Request email updates. We will email a confirmation link. You can unsubscribe at any time.'}</p>
-    <fieldset disabled={busy || uncertain}><legend className="sr-only">{contact ? 'Contact inquiry' : 'Newsletter request'}</legend>
+    <noscript><p>Enable JavaScript to submit this form, or contact us by phone or email.</p></noscript>
+    <fieldset disabled={!hydrated || busy || uncertain}><legend className="sr-only">{contact ? 'Contact inquiry' : 'Newsletter request'}</legend>
       <div className={contact ? 'two-column' : undefined}>
       {contact && <label htmlFor="inquiry-name">Name (required)<input id="inquiry-name" name="name" autoComplete="name" required maxLength={100} /></label>}
       <label htmlFor={`${kind}-email`}>Email (required)<input id={`${kind}-email`} name="email" type="email" autoComplete="email" required maxLength={254} /></label>

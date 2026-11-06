@@ -56,7 +56,7 @@ try {
     if(file.startsWith('dist/uploads/')||file.startsWith('dist/front_assets/')) assert(assets.has(file.slice(4)))
   }
   const sitemap=readFileSync('dist/sitemap.xml','utf8')
-  assert.equal((sitemap.match(/<loc>/g)??[]).length,pageMetadata.filter(page=>page.indexable).length)
+  assert.deepEqual([...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match=>match[1]), pageMetadata.filter(page=>page.indexable).map(page=>siteOrigin+page.path))
   console.log(`PASS: ${pageMetadata.length} rendered routes, ${services.length} detail records, internal links, headings, alt text, labels, static SEO, ${assets.size} approved assets, and output isolation.`)
 } finally { await server.close() }
 
@@ -78,3 +78,21 @@ if(process.argv.includes('--http')) {
     console.log('PASS: dev-server media isolation, direct filesystem denial, and video byte-range handling.')
   } finally {await http.close()}
 }
+
+// Assert shipped HTML, not just an independently rendered React tree.
+const distPages = [...readFileSync('dist/sitemap.xml','utf8').matchAll(/<loc>([^<]+)<\/loc>/g)].map(match=>match[1])
+for (const url of distPages) {
+  const path = new URL(url).pathname
+  const html = readFileSync(resolve('dist',path.slice(1),'index.html'),'utf8')
+  assert.equal((html.match(/<h1(?:\s|>)/g)??[]).length,1,'Initial HTML must contain h1: '+path)
+  assert(html.includes('<main') && html.includes('<p>'),'Initial HTML must contain meaningful content')
+  assert.equal((html.match(/rel="canonical"/g)??[]).length,1)
+  assert(html.includes('property="og:title"') && html.includes('property="og:image"'))
+  const schema = JSON.parse(html.match(/<script type="application\/ld\+json" id="structured-data">(.*?)<\/script>/s)[1])
+  assert.equal(schema['@context'],'https://schema.org')
+  assert(schema['@graph'].some(node=>node['@type']==='Organization'))
+  assert(!schema['@graph'].some(node=>['LocalBusiness','Review','AggregateRating','Offer'].includes(node['@type'])))
+  if (path.startsWith('/service-detail/')) assert(schema['@graph'].some(node=>node['@type']==='Service'))
+}
+assert(readFileSync('dist/404.html','utf8').includes('noindex,follow'))
+console.log('PASS: meaningful initial HTML, canonical uniqueness, Open Graph, JSON-LD syntax and 404 policy.')

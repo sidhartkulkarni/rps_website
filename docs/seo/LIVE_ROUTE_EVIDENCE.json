@@ -1,0 +1,162 @@
+{
+  "checked": "2026-11-07",
+  "method": "GET public HTTPS paths, no authentication or form submissions",
+  "routes": [
+    {
+      "path": "/",
+      "status": 200,
+      "title": [
+        "Home | Rapid Pack N Ship"
+      ],
+      "h1": 0,
+      "og": 0,
+      "schema": 0,
+      "robots": [
+        "index,follow"
+      ]
+    },
+    {
+      "path": "/about-us",
+      "status": 200,
+      "title": [
+        "About Us | Rapid Pack N Ship"
+      ],
+      "h1": 0,
+      "og": 0,
+      "schema": 0,
+      "robots": [
+        "index,follow"
+      ]
+    },
+    {
+      "path": "/services",
+      "status": 200,
+      "title": [
+        "Services | Rapid Pack N Ship"
+      ],
+      "h1": 0,
+      "og": 0,
+      "schema": 0,
+      "robots": [
+        "index,follow"
+      ]
+    },
+    {
+      "path": "/reviews",
+      "status": 200,
+      "title": [
+        "Reviews | Rapid Pack N Ship"
+      ],
+      "h1": 0,
+      "og": 0,
+      "schema": 0,
+      "robots": [
+        "noindex,follow"
+      ]
+    },
+    {
+      "path": "/how-it-works",
+      "status": 200,
+      "title": [
+        "How It Works | Rapid Pack N Ship"
+      ],
+      "h1": 0,
+      "og": 0,
+      "schema": 0,
+      "robots": [
+        "index,follow"
+      ]
+    },
+    {
+      "path": "/contact-us",
+      "status": 200,
+      "title": [
+        "Contact Us | Rapid Pack N Ship"
+      ],
+      "h1": 0,
+      "og": 0,
+      "schema": 0,
+      "robots": [
+        "index,follow"
+      ]
+    },
+    {
+      "path": "/privacy-policy",
+      "status": 200,
+      "title": [
+        "Privacy Policy | Rapid Pack N Ship"
+      ],
+      "h1": 0,
+      "og": 0,
+      "schema": 0,
+      "robots": [
+        "noindex,follow"
+      ]
+    },
+    {
+      "path": "/terms-and-conditions",
+      "status": 200,
+      "title": [
+        "Terms of Use | Rapid Pack N Ship"
+      ],
+      "h1": 0,
+      "og": 0,
+      "schema": 0,
+      "robots": [
+        "noindex,follow"
+      ]
+    },
+    {
+      "path": "/service-detail/parcel-shipping",
+      "status": 200,
+      "title": [
+        "Parcel Shipping | Rapid Pack N Ship"
+      ],
+      "h1": 0,
+      "og": 0,
+      "schema": 0,
+      "robots": [
+        "index,follow"
+      ]
+    },
+    {
+      "path": "/service-detail/ltl-less-than-truckload-shipping",
+      "status": 200,
+      "title": [
+        "LTL (Less Than Truckload) Shipping | Rapid Pack N Ship"
+      ],
+      "h1": 0,
+      "og": 0,
+      "schema": 0,
+      "robots": [
+        "index,follow"
+      ]
+    },
+    {
+      "path": "/service-detail/full-truckload-shipping",
+      "status": 200,
+      "title": [
+        "Full Truckload Shipping | Rapid Pack N Ship"
+      ],
+      "h1": 0,
+      "og": 0,
+      "schema": 0,
+      "robots": [
+        "index,follow"
+      ]
+    },
+    {
+      "path": "/service-detail/intermodal-global-shipping",
+      "status": 200,
+      "title": [
+        "Intermodal Global Shipping | Rapid Pack N Ship"
+      ],
+      "h1": 0,
+      "og": 0,
+      "schema": 0,
+      "robots": [
+        "index,follow"
+      ]
+    }
+  ]
+}

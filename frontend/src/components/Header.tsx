@@ -18,7 +18,7 @@ export default function Header() {
         {navigation.map(([path, label]) => <NavLink key={path} to={path} end={path === '/'} onClick={() => setOpen(false)}>{label}</NavLink>)}
       </nav>
     </div>
-    <p className="preview-notice">For quotes or urgent assistance, contact our team. Call 469-732-4444 or email sales@rapidpacknship.com.</p>
+    <p className="preview-notice">For quotes or urgent assistance, contact our team. Call <a href="tel:+14697324444">469-732-4444</a> or email <a href="mailto:sales@rapidpacknship.com">sales@rapidpacknship.com</a>.</p>
   </header>
 }
 

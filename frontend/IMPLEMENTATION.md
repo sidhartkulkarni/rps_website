@@ -103,3 +103,10 @@ Final verification for this pass: 24 backend tests passed (one upstream Starlett
 On `feature/website-backend-production`, production-baseline contact/newsletter integration now includes bounded TLS SMTP, safe retries, dependency readiness and encrypted double opt-in/unsubscribe. Newsletter intake success means confirmation email accepted; membership requires explicit confirmation. Forms handle validation/unavailability/uncertain delivery without false success. No premium UI or production deployment changes.
 
 Validated: 41 backend tests, 8 browser integration tests, 7 deployment-helper tests, frontend build/lint and 12-route/32-asset validation. Remaining P0: approved SMTP configuration and controlled delivery verification, privacy/retention approval, host resource/port checks, dependency advisory review, isolated service/proxy approval. P1: approved campaign delivery that honors active state/unsubscribe; no campaign sender or subscriber admin UI exists. See `docs/integration/WEBSITE_BACKEND_PRODUCTION.md` and `docs/deployment/WEBSITE_BACKEND_EC2.md` from repository root. This entry supersedes earlier descriptions of newsletter as inbox-only or health as configuration-only.
+
+
+## Technical SEO — local branch feature/seo-optimization
+
+Build now prerenders all 12 canonical React pages and hydrates existing forms/navigation, retaining the static EC2 deployment model. Metadata includes canonical/robots/Open Graph and conservative Organization/WebSite/BreadcrumbList/Service JSON-LD. Nine indexable canonical URLs remain in sitemap; reviews/legal await approval. Original 32 media hashes are preserved. Form fields stay disabled before hydration to prevent accidental native submissions; API contracts are unchanged.
+
+`npm run build` must complete its prerender step before packaging/testing. Browser tests now run built preview. Preview models permanent aliases and real 404; production redirects require separate approved host work. See `docs/seo/SEO_AUDIT.md`, `REDIRECT_REVIEW.md`, `CONTENT_AND_SEARCH_CONSOLE.md` and `CHANGE_SUMMARY.md` from repository root. Backend/premium UI untouched; no deployment performed.

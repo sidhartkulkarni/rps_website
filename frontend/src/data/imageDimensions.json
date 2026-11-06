@@ -1,0 +1,122 @@
+{
+  "/front_assets/images/logo-seal.png": {
+    "width": 1024,
+    "height": 1024
+  },
+  "/front_assets/images/poster-vid-imge.png": {
+    "width": 1600,
+    "height": 900
+  },
+  "/front_assets/images/quote.png": {
+    "width": 56,
+    "height": 40
+  },
+  "/uploads/banner/banner176365794843176401742164.jpg": {
+    "width": 1920,
+    "height": 899
+  },
+  "/uploads/cms/about-main1176367962046.png": {
+    "width": 858,
+    "height": 687
+  },
+  "/uploads/cms/about-main176367930880.png": {
+    "width": 858,
+    "height": 687
+  },
+  "/uploads/cms/client-trust176367974411.webp": {
+    "width": 2250,
+    "height": 1500
+  },
+  "/uploads/cms/corevalue176367972158.png": {
+    "width": 925,
+    "height": 638
+  },
+  "/uploads/cms/mission176367969746.png": {
+    "width": 858,
+    "height": 686
+  },
+  "/uploads/cms/story-1176375063574.png": {
+    "width": 490,
+    "height": 428
+  },
+  "/uploads/cms/vision176367964550.png": {
+    "width": 857,
+    "height": 686
+  },
+  "/uploads/inner_banner/banner-inner176367113156.png": {
+    "width": 1920,
+    "height": 502
+  },
+  "/uploads/inner_banner/banner-inner176367117034.png": {
+    "width": 1920,
+    "height": 502
+  },
+  "/uploads/inner_banner/banner-inner176367118775.png": {
+    "width": 1920,
+    "height": 502
+  },
+  "/uploads/inner_banner/banner-inner176367120358.png": {
+    "width": 1920,
+    "height": 502
+  },
+  "/uploads/inner_banner/banner-inner176367122339.png": {
+    "width": 1920,
+    "height": 502
+  },
+  "/uploads/inner_banner/banner-inner176367128444.png": {
+    "width": 1920,
+    "height": 502
+  },
+  "/uploads/inner_banner/banner-inner176367130178.png": {
+    "width": 1920,
+    "height": 502
+  },
+  "/uploads/logo/favicon176401708549.png": {
+    "width": 305,
+    "height": 95
+  },
+  "/uploads/logo/footer176401707186.png": {
+    "width": 305,
+    "height": 95
+  },
+  "/uploads/services/serv-3176368194285.jpeg": {
+    "width": 1200,
+    "height": 675
+  },
+  "/uploads/services/serv-4176368201187.webp": {
+    "width": 1170,
+    "height": 445
+  },
+  "/uploads/services/service-1176368173724.png": {
+    "width": 460,
+    "height": 446
+  },
+  "/uploads/services/service-2176368189521.png": {
+    "width": 460,
+    "height": 446
+  },
+  "/uploads/what_new/auction176367847949.png": {
+    "width": 512,
+    "height": 512
+  },
+  "/uploads/what_new/baner-point-3176367862097.png": {
+    "width": 85,
+    "height": 85
+  },
+  "/uploads/what_new/baner-point-3176374791521.png": {
+    "width": 85,
+    "height": 85
+  },
+  "/uploads/what_new/baner-point-4176374805832.png": {
+    "width": 90,
+    "height": 85
+  },
+  "/uploads/what_new/shipping-cost176367859310.png": {
+    "width": 512,
+    "height": 512
+  },
+  "/uploads/what_new/timer176367855029.png": {
+    "width": 512,
+    "height": 512
+  }
+}

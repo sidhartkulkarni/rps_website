@@ -34,7 +34,7 @@ for path in sorted(dist.rglob('*')):
     if not path.is_file(): continue
     name=path.relative_to(dist).as_posix()
     public=lock.get('/'+name)
-    allowed=public or name in ('robots.txt','sitemap.xml','index.html') or re.fullmatch(r'(?:[a-z0-9-]+/)+index\.html',name) or re.fullmatch(r'assets/[A-Za-z0-9_-]+\.(?:js|css)',name)
+    allowed=public or name in ('robots.txt','sitemap.xml','index.html','404.html') or re.fullmatch(r'(?:[a-z0-9-]+/)+index\.html',name) or re.fullmatch(r'assets/[A-Za-z0-9_-]+\.(?:js|css)',name)
     if not allowed: raise SystemExit('Unexpected output file; review build boundary')
     with path.open('rb') as stream: digest=stream_digest(stream)
     meta={'bytes':path.stat().st_size,'sha256':digest}

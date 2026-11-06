@@ -1,3 +1,4 @@
+import PublicImage from '../components/PublicImage'
 import { Link, useParams } from 'react-router-dom'
 import PageBanner from '../components/PageBanner'
 import Content from '../components/Content'
@@ -7,5 +8,5 @@ export default function ServiceDetail() {
   const { slug } = useParams()
   const service = services.find(item => item.slug === slug)
   if (!service) return <NotFound />
-  return <><PageBanner title={service.name} imageKey="Service Detail" /><section className="section"><div className="container"><div className="editorial-row image-first"><div><h2>{service.name}</h2><Content blocks={service.description} /><Link className="button" to="/contact-us">Contact us about this service</Link></div><img src={service.image} alt={service.imageAlt} /></div><Link className="text-link" to="/services">Back to Services</Link></div></section></>
+  return <><PageBanner title={service.name} imageKey="Service Detail" /><section className="section"><div className="container"><div className="editorial-row image-first"><div><h2>{service.name}</h2><Content blocks={service.description} /><Link className="button" to="/contact-us">Contact us about this service</Link></div><PublicImage src={service.image} alt={service.imageAlt} /></div><nav aria-label="Related services"><h2>Explore our other shipping services</h2><ul>{services.filter(item => item.slug !== slug).map(item => <li key={item.slug}><Link to={`/service-detail/${item.slug}`}>{item.name}</Link></li>)}</ul><Link className="text-link" to="/services">All services and packaging options</Link></nav></div></section></>
 }

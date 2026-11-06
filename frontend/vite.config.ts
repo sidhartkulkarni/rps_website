@@ -1,7 +1,7 @@
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import type { Plugin } from 'vite'
-import { createReadStream, copyFileSync, mkdirSync, statSync, readFileSync, realpathSync, writeFileSync } from 'node:fs'
+import { createReadStream, copyFileSync, mkdirSync, statSync, readFileSync, realpathSync } from 'node:fs'
 import { dirname, resolve, extname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { pageMetadata, siteOrigin, routeAliases } from './src/data/seo.ts'
@@ -46,6 +46,23 @@ function safeAssets(): Plugin {
         const stream=createReadStream(file,{start,end});stream.on('error',()=>res.destroy());res.on('close',()=>stream.destroy());stream.pipe(res)
       })
     },
+    configurePreviewServer(server) {
+      server.middlewares.use((req, res, next) => {
+        const url = new URL(req.url ?? '/', 'http://localhost')
+        const path = url.pathname
+        const normalized = path === '/' ? '/' : (path.replace(/\/index\.html$/, '').replace(/\/+$/, '') || '/')
+        const target = routeAliases[normalized] ?? normalized
+        const known = pageMetadata.some(page => page.path === target)
+        if (known && path !== target) { res.statusCode = 308; res.setHeader('Location', target + url.search); res.end(); return }
+        if (known || (!path.startsWith('/assets/') && !assets.has(path) && !['/robots.txt','/sitemap.xml'].includes(path))) {
+          res.statusCode = known ? 200 : 404
+          res.setHeader('Content-Type', 'text/html; charset=utf-8')
+          res.end(readFileSync(resolve(root, 'dist', known ? (target === '/' ? 'index.html' : target.slice(1) + '/index.html') : '404.html')))
+          return
+        }
+        next()
+      })
+    },
     generateBundle() {
       this.emitFile({type:'asset',fileName:'sitemap.xml',source:sitemap})
       this.emitFile({type:'asset',fileName:'robots.txt',source:robots})
@@ -53,17 +70,7 @@ function safeAssets(): Plugin {
     writeBundle(options) {
       const out=options.dir ?? resolve(root,'dist')
       for (const path of assets) { const dest=resolve(out,path.slice(1));mkdirSync(dirname(dest),{recursive:true});copyFileSync(resolve(root,'public',path.slice(1)),dest) }
-      const template = readFileSync(resolve(out,'index.html'),'utf8')
-      const escape = (text: string) => text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')
-      for (const page of pageMetadata) {
-        const paths = [page.path, ...Object.keys(routeAliases).filter(alias=>routeAliases[alias]===page.path)]
-        for (const path of paths) {
-          const markup=template.replace(/<title>.*?<\/title>/s,`<title>${escape(page.title)} | Rapid Pack N Ship</title>`)
-            .replace(/<meta name="description" content="[^"]*" \/>/,`<meta name="description" content="${escape(page.description)}" />`)
-            .replace('</head>',`<link rel="canonical" href="${siteOrigin}${page.path}" /><meta name="robots" content="${page.indexable?'index,follow':'noindex,follow'}" /></head>`)
-          const dest=resolve(out,path.slice(1),'index.html');mkdirSync(dirname(dest),{recursive:true});writeFileSync(dest,markup)
-        }
-      }
+
     },
   }
 }
