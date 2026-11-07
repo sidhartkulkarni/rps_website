@@ -18,3 +18,31 @@
 .newsletter-consent input { width: auto; margin-top: .3rem; }
 .submission-error { font-weight: 600; }
 button:disabled { cursor: wait; opacity: .65; }
+
+/* Restored legacy header-box/header-ani, scoped and removed after one pass.
+   Transform-based reveal matches the old width wipe without document reflow. */
+.header-intro{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:9;visibility:hidden}
+.header-intro.is-running{visibility:visible}
+.header-intro-cover{position:absolute;inset:0;background:#fdfdfd;transform-origin:right}
+.header-intro.is-running .header-intro-cover{animation:rps-header-reveal 2.9s linear both}
+.header-intro-mascot{position:absolute;top:0;left:-100px;width:100px;height:100px;object-fit:contain}
+.header-intro.is-running .header-intro-mascot{animation:rps-header-mascot 2.5s linear}
+@keyframes rps-header-reveal{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+@keyframes rps-header-mascot{from{left:0}to{left:100%}}
+@media(prefers-reduced-motion:reduce){.header-intro{display:none}.header-intro *{animation:none!important}}
+
+
+.privacy-toast{position:fixed;left:max(16px,env(safe-area-inset-left));bottom:max(16px,env(safe-area-inset-bottom));z-index:100;display:flex;align-items:center;gap:8px;width:350px;max-width:calc(100vw - 32px);padding:14px 8px 14px 18px;background:#fff;color:var(--ink);border:1px solid #e4dfd8;border-left:3px solid var(--brand);border-radius:8px;box-shadow:0 4px 24px #0002;animation:privacy-notice-in .2s ease-out;opacity:1;transition:opacity .2s ease-out}
+.privacy-toast.is-leaving{opacity:0;pointer-events:none}
+.site-footer .privacy-toast p{font-size:14px;line-height:1.6;margin:0}
+.privacy-toast-link,.privacy-settings-link{font:inherit;background:none;border:0;padding:0;text-decoration:underline;cursor:pointer;color:inherit;text-underline-offset:3px}
+.privacy-toast-link{min-height:24px}.privacy-settings-link{min-height:44px}
+.privacy-toast-close{flex-shrink:0;width:44px;height:44px;padding:0;background:none;border:0;color:var(--ink);font-size:24px;cursor:pointer;border-radius:4px}
+.privacy-toast button:focus-visible,.privacy-settings-link:focus-visible{outline:2px solid var(--brand);outline-offset:3px}
+@keyframes privacy-notice-in{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.privacy-toast{animation:none;transition:none}}
+.analytics-dialog h2{font-size:22px;margin-bottom:10px}.analytics-dialog p{font-size:15px;line-height:1.6;margin-bottom:14px}
+.analytics-actions{display:flex;flex-wrap:wrap;gap:12px}.analytics-actions .button{font-size:14px;padding:10px 16px;min-height:44px;cursor:pointer}
+.analytics-dialog{color:var(--ink);background:#fff;border:1px solid #ccc;padding:24px;width:min(600px,calc(100% - 32px));max-height:85vh;overflow:auto}.analytics-dialog::backdrop{background:#0008}.analytics-dialog label{display:flex;align-items:center;gap:12px;margin:18px 0}.analytics-dialog input{width:20px;height:20px}.footer-bottom>button{display:block;margin-top:16px}
+.site-footer .analytics-dialog h2{color:var(--ink)}
+.site-footer .analytics-dialog a{text-decoration:underline}.site-footer .analytics-dialog a:hover{color:var(--brand)}

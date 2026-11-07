@@ -1,3 +1,4 @@
+import { trackSuccess } from '../analytics/tracking'
 import { useRef, useState, useSyncExternalStore } from 'react'
 import type { FormEvent } from 'react'
 
@@ -49,6 +50,7 @@ export default function SubmissionForm({ kind }: { kind: 'contact' | 'newsletter
           ? 'Delivery is unavailable or busy. Please wait, then try again. Your submission has not been confirmed.'
           : messages[response.status] || 'Delivery could not be confirmed. Please contact us directly before making another submission.')
       }
+      void trackSuccess(kind, result.request_id)
       setStatus(contact ? 'Your inquiry was accepted by our email provider.' : 'Check your email to confirm your newsletter subscription. You are not subscribed until you confirm.')
       form.reset()
       attempt.current = null

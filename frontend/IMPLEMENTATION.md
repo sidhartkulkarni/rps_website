@@ -110,3 +110,20 @@ Validated: 41 backend tests, 8 browser integration tests, 7 deployment-helper te
 Build now prerenders all 12 canonical React pages and hydrates existing forms/navigation, retaining the static EC2 deployment model. Metadata includes canonical/robots/Open Graph and conservative Organization/WebSite/BreadcrumbList/Service JSON-LD. Nine indexable canonical URLs remain in sitemap; reviews/legal await approval. Original 32 media hashes are preserved. Form fields stay disabled before hydration to prevent accidental native submissions; API contracts are unchanged.
 
 `npm run build` must complete its prerender step before packaging/testing. Browser tests now run built preview. Preview models permanent aliases and real 404; production redirects require separate approved host work. See `docs/seo/SEO_AUDIT.md`, `REDIRECT_REVIEW.md`, `CONTENT_AND_SEARCH_CONSOLE.md` and `CHANGE_SUMMARY.md` from repository root. Backend/premium UI untouched; no deployment performed.
+
+## Header animation and public phone — 2026-11-08
+
+Restored the original recovered header mascot GIF with the legacy 2.5s movement/2.9s reveal, respecting reduced motion and preserving linked-logo geometry. Public phone is centralized as 866-959-7447 / tel:+18669597447. All 32 prior media remain unchanged; allowlist now includes the reviewed original header GIF (33 assets). Build/lint, 18 browser tests, route/SEO/phone validation and security checks passed. See `docs/seo/LOGO_AND_PHONE_UPDATE.md` from repository root for provenance and exact changes. No production deployment performed.
+
+## Optional analytics — 2026-11-08
+
+Added consent-gated GTM `GTM-KM945ZXM` using the current container snippet held inert in the shared HTML template. No separate GA4 loader. GA4 `G-X9QN5W2GTB` requires the reviewed Google-side setup in `docs/analytics/GTM_GA4_SETUP.md` before publishing. Analytics defaults off; Accept/Reject/preferences persist, withdrawal unloads tags through a reload, and forms work with either choice. Fixed allowlisted events cover manual SPA page views, confirmed contact request success, newsletter requests (not signups), phone/email and explicit quote/contact CTAs. API/token/unrecognized/query-bearing URLs are excluded; no form data or raw URLs are sent by event helpers. Local replay suppression is best-effort and does not replace backend idempotency.
+
+The privacy page now contains a factual implementation notice, explicitly awaiting Mark's legal approval. No Google container, backend or infrastructure was modified, and no live Google ingestion or production delivery was tested. Existing logo, phone, assets, SEO and forms remain intact. See the analytics guide for exact files, triggers, consent template requirements, Tag Assistant/DebugView checks and limitations.
+
+
+## Informational privacy toast — 2026-11-08
+
+Supersedes the earlier banner UI: a compact bottom-left notice fades away after about five seconds, once per browser when storage is available. Hover/focus pauses dismissal; reduced-motion is respected. The independent seen marker never grants consent. Footer Privacy Settings provides persistent opt-in/opt-out controls. GPC overrides acceptance, saved rejections do not expire, and acceptance still expires after 180 days. All five events, SPA deduplication, forms, SEO, mascot and phone remain intact.
+
+Analytics remains off by default globally pending Mark/legal approval of any regional default-on policy and a trustworthy jurisdiction signal. No location inference or infrastructure changes were added. See `docs/analytics/PRIVACY_NOTICE.md` for the behavior matrix, exact files, verification and unresolved approvals; Google-side configuration remains governed by `GTM_GA4_SETUP.md`.

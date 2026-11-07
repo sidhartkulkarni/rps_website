@@ -50,6 +50,17 @@ class ArchiveTests(unittest.TestCase):
                     tar.addfile(entry, io.BytesIO(body))
                     files[name] = {'bytes': len(body), 'sha256': hashlib.sha256(body).hexdigest()}
             installer.validate(archive, {'schema':1, 'tag':'test', 'total_bytes':2*len(body), 'files':files})
+    def test_recovered_header_gif(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            archive = Path(tmp)/'site.tar'
+            body = b'synthetic-public-asset'
+            files = {}
+            with tarfile.open(archive, 'w') as tar:
+                for name in ['index.html', 'front_assets/images/header-vid.gif']:
+                    entry = tarfile.TarInfo(name); entry.size = len(body)
+                    tar.addfile(entry, io.BytesIO(body))
+                    files[name] = {'bytes': len(body), 'sha256': hashlib.sha256(body).hexdigest()}
+            installer.validate(archive, {'schema':1, 'tag':'test', 'total_bytes':2*len(body), 'files':files})
     def test_regular(self): self.check()
     def test_traversal(self):
         with self.assertRaises(ValueError):self.check('../index.html')

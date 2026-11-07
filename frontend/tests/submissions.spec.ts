@@ -94,3 +94,9 @@ test('newsletter requires consent and reports confirmation pending', async ({ pa
   await expect(page.locator('#newsletter-status')).toContainText('not subscribed until you confirm')
   expect(calls).toBe(1)
 })
+
+
+// Existing functional/visual scenarios run with analytics explicitly rejected.
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('rps.analytics-consent.v1', JSON.stringify({ version: 1, analytics: false, saved: Date.now() })))
+})

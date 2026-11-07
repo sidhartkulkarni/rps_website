@@ -14,7 +14,7 @@ def validate(archive, manifest):
         raise ValueError('Invalid manifest')
     files=manifest['files']
     if len(files)>2000 or 'index.html' not in files: raise ValueError('Invalid file list')
-    allowed=re.compile(r'(?:index\.html|404\.html|robots\.txt|sitemap\.xml|(?:[a-z0-9-]+/)+index\.html|assets/[A-Za-z0-9_-]+\.(?:js|css)|(?:uploads|front_assets)/[A-Za-z0-9_./-]+\.(?:png|jpg|jpeg|webp|mp4))')
+    allowed=re.compile(r'(?:index\.html|404\.html|robots\.txt|sitemap\.xml|(?:[a-z0-9-]+/)+index\.html|assets/[A-Za-z0-9_-]+\.(?:js|css)|(?:uploads|front_assets)/[A-Za-z0-9_./-]+\.(?:png|jpg|jpeg|webp|gif|mp4))')
     for name,meta in files.items():
         if not isinstance(name,str) or not allowed.fullmatch(name) or '..' in PurePosixPath(name).parts or name.startswith('/'):
             raise ValueError('Unsafe file path')

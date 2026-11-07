@@ -8,7 +8,7 @@ import { pageMetadata, siteOrigin, routeAliases } from './src/data/seo.ts'
 
 const root = dirname(fileURLToPath(import.meta.url))
 const assets = new Set<string>(JSON.parse(readFileSync(resolve(root, 'public-assets.json'), 'utf8')))
-const mime: Record<string,string> = {'.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.webp':'image/webp','.mp4':'video/mp4'}
+const mime: Record<string,string> = {'.gif':'image/gif','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.webp':'image/webp','.mp4':'video/mp4'}
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${pageMetadata.filter(page=>page.indexable).map(page=>`<url><loc>${siteOrigin}${page.path}</loc></url>`).join('')}</urlset>`
 const robots = `User-agent: *\nAllow: /\nSitemap: ${siteOrigin}/sitemap.xml\n`
 function safeAssets(): Plugin {

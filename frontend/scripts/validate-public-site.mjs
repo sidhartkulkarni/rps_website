@@ -96,3 +96,28 @@ for (const url of distPages) {
 }
 assert(readFileSync('dist/404.html','utf8').includes('noindex,follow'))
 console.log('PASS: meaningful initial HTML, canonical uniqueness, Open Graph, JSON-LD syntax and 404 policy.')
+
+// Scan every generated text artifact, including aliases and bundled CMS content.
+function validatePhoneTree(directory) {
+  for (const item of readdirSync(directory, { withFileTypes: true })) {
+    const path = resolve(directory, item.name)
+    if (item.isDirectory()) validatePhoneTree(path)
+    else if (/\.(html|js|css|xml|txt|json)$/.test(item.name)) {
+      const text = readFileSync(path, 'utf8')
+      assert(!/(?:\+?1[\s().-]*)?469[\s().-]*732[\s().-]*4444/.test(text), 'Previous public phone in build: ' + item.name)
+      for (const match of text.matchAll(/tel:[+\d-]+/g)) assert.equal(match[0], 'tel:+18669597447')
+    }
+  }
+}
+validatePhoneTree('dist')
+console.log('PASS: generated HTML and bundles contain no previous business phone; every tel link is current.')
+
+for (const path of [...distPages.map(url => new URL(url).pathname), '/reviews', '/privacy-policy', '/terms-and-conditions']) {
+  const html = readFileSync(resolve('dist', path.slice(1), 'index.html'), 'utf8')
+  assert.equal((html.match(/id="rps-gtm-template"/g) ?? []).length, 1)
+  assert(/<template id="rps-gtm-template">\s*<script async src="https:\/\/www.googletagmanager.com\/gtm.js\?id=GTM-KM945ZXM"><\/script>/.test(html))
+  assert(!html.includes('googletagmanager.com/gtag/js'))
+  assert(!html.includes('googletagmanager.com/ns.html'))
+  assert(html.includes('name="referrer" content="no-referrer"'))
+}
+console.log('PASS: exactly one inert consent-gated GTM snippet per canonical shell; no separate GA loader or noscript bypass.')

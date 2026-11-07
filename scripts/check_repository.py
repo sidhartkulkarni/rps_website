@@ -47,7 +47,7 @@ def run():
         if not file.is_file(): continue
         size = file.stat().st_size; total += size
         if size >= 100 * 1024 * 1024: failures.append('GitHub oversized Git candidate')
-        if file.suffix.lower() not in ('.png','.jpg','.jpeg','.webp','.mp4'):
+        if file.suffix.lower() not in ('.png','.jpg','.jpeg','.webp','.gif','.mp4'):
             content = file.read_bytes()
             if any(pattern.search(content) for pattern in secrets): failures.append('possible credential pattern; inspect privately')
     if failures:

@@ -83,3 +83,9 @@ test('videos do not download on initial load and root index redirects', async ({
   expect(response.status()).toBe(308)
   expect(response.headers().location).toBe('/')
 })
+
+
+// Existing functional/visual scenarios run with analytics explicitly rejected.
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('rps.analytics-consent.v1', JSON.stringify({ version: 1, analytics: false, saved: Date.now() })))
+})

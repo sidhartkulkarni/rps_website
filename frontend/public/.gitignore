@@ -2,6 +2,7 @@
 *
 !*/
 !.gitignore
+!/front_assets/images/header-vid.gif
 !/front_assets/images/logo-seal.png
 !/front_assets/images/poster-vid-imge.png
 !/front_assets/images/quote.png

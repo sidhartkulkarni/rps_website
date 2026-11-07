@@ -1,3 +1,5 @@
+import HeaderAnimation from './HeaderAnimation'
+import { businessPhone } from '../data/site'
 import { useRef, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
@@ -11,6 +13,7 @@ export default function Header() {
   }} onBlur={event => {
     if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false)
   }}>
+    <HeaderAnimation />
     <div className="container header-inner">
       <Link to="/" aria-label="Rapid Pack N Ship home" onClick={() => setOpen(false)}><img className="header-logo" width="305" height="95" src={logo} alt="Rapid Pack N Ship" /></Link>
       <button type="button" ref={toggle} className="menu-toggle" aria-expanded={open} aria-controls="main-navigation" aria-label={open ? 'Close navigation' : 'Open navigation'} onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</button>
@@ -18,7 +21,7 @@ export default function Header() {
         {navigation.map(([path, label]) => <NavLink key={path} to={path} end={path === '/'} onClick={() => setOpen(false)}>{label}</NavLink>)}
       </nav>
     </div>
-    <p className="preview-notice">For quotes or urgent assistance, contact our team. Call <a href="tel:+14697324444">469-732-4444</a> or email <a href="mailto:sales@rapidpacknship.com">sales@rapidpacknship.com</a>.</p>
+    <p className="preview-notice">For quotes or urgent assistance, contact our team. Call <a href={businessPhone.href}>{businessPhone.display}</a> or email <a href="mailto:sales@rapidpacknship.com">sales@rapidpacknship.com</a>.</p>
   </header>
 }
 
